@@ -1,0 +1,11 @@
+{
+  "tools": [
+    {
+      "id": "weibo",
+      "name": "微博相册",
+      "path": "E:\\MyWorls\\weiboSpider",
+      "adapter": "weibo-album",
+      "python": ""
+    }
+  ]
+}

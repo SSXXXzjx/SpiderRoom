@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SpiderRoom · 爬虫控制台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121315'/%3E%3Cpath d='M9 7l14 18M23 7L9 25M6 16h20' stroke='%23c2ff63' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="icon-spider" viewBox="0 0 24 24"><rect x="8" y="7" width="8" height="13" rx="4"/><path d="M9 8 6 4M15 8l3-4M8 10 4 8 2 10M16 10l4-2 2 2M8 14H3M16 14h5M8 17l-4 3M16 17l4 3M10 4h4"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+    <symbol id="icon-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/></symbol>
+    <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m3 17 5-5 4 4 4-6 5 7"/></symbol>
+    <symbol id="icon-layers" viewBox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8Zm-10 9 10 5 10-5M2 16l10 5 10-5"/></symbol>
+    <symbol id="icon-error" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6m0-6-6 6"/></symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><rect x="7" y="4" width="4" height="6" rx="1"/><rect x="14" y="14" width="4" height="6" rx="1"/></symbol>
+    <symbol id="icon-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12l4 4v12a2 2 0 0 1-2 2Z"/><path d="M7 3v6h9V3M7 21v-8h10v8"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
+    <symbol id="icon-terminal" viewBox="0 0 24 24"><path d="m4 5 6 6-6 6M13 18h7"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18M5 6l1 15h12l1-15M9 6V3h6v3M10 10v7M14 10v7"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="icon-activity" viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></symbol>
+    <symbol id="icon-crop" viewBox="0 0 24 24"><path d="M6 3v15h15M3 6h15v15M3 21h18"/></symbol>
+  </svg>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="爬虫导航">
+      <a class="brand" href="/" aria-label="SpiderRoom 首页"><span class="brand-mark"><svg class="icon"><use href="#icon-spider"/></svg></span><span>Spider<span class="brand-light">Room</span><small>LOCAL WORKSPACE</small></span></a>
+      <div class="workspace-label"><svg class="icon"><use href="#icon-grid"/></svg><span>爬虫控制台</span><span class="small-tag">01</span></div>
+      <div class="search-box"><svg class="icon"><use href="#icon-search"/></svg><input id="tool-search" type="search" placeholder="搜索工具" aria-label="搜索爬虫工具" autocomplete="off"><kbd>/</kbd></div>
+      <div class="nav-heading"><span>爬虫工具</span><span id="tool-count">01</span></div>
+      <nav id="tool-list"><button class="tool-item selected" id="weibo-nav" aria-current="page"><span class="tool-logo"><svg class="icon"><use href="#icon-spider"/></svg></span><span class="tool-name">微博相册<small>weiboSpider</small></span><span id="nav-dot" class="status-dot"></span></button></nav>
+      <p class="search-empty" id="search-empty" hidden>无匹配工具</p>
+      <div class="sidebar-bottom"><div class="local-indicator"><span class="status-dot" id="connection-dot"></span><span id="connection-text">连接中</span><span class="mono">LOCAL</span></div><div class="version-line"><span>SpiderRoom</span><span class="mono">v1.0</span></div></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar"><div class="breadcrumb"><span>爬虫工具</span><svg class="icon"><use href="#icon-chevron"/></svg><strong>微博相册</strong></div><div class="topbar-end"><span class="service-label"><span class="status-dot" id="service-dot"></span><span id="service-text">本地服务</span></span><span class="header-divider"></span><span class="mono">WORKSPACE / 01</span></div></header>
+      <main id="main-content">
+        <section class="page-heading"><div><div class="eyebrow"><span class="green-line"></span>WEIBO SPIDER</div><h1>微博相册<span class="title-tag">图片采集</span></h1><div class="project-path" id="project-path">E:\MyWorls\weiboSpider</div></div><div class="run-actions"><button class="button button-secondary" id="open-crop-top" title="裁剪预览"><svg class="icon"><use href="#icon-crop"/></svg><span>裁剪预览</span></button><button class="button button-secondary" id="open-output" title="输出目录"><svg class="icon"><use href="#icon-folder"/></svg><span>输出目录</span></button><button class="button button-primary" id="run-button" disabled><svg class="icon"><use id="run-icon" href="#icon-play"/></svg><span id="run-label">开始采集</span></button></div></section>
+        <section class="metrics" aria-label="本次运行统计">
+          <div class="metric"><div class="metric-label"><span>新增图片</span><svg class="icon"><use href="#icon-image"/></svg></div><div class="metric-value accent" id="metric-downloaded">0</div><div class="metric-foot">DOWNLOADED</div></div>
+          <div class="metric"><div class="metric-label"><span>已存在 · 跳过</span><svg class="icon"><use href="#icon-layers"/></svg></div><div class="metric-value" id="metric-existing">0</div><div class="metric-foot">SKIPPED</div></div>
+          <div class="metric"><div class="metric-label"><span>下载失败</span><svg class="icon"><use href="#icon-error"/></svg></div><div class="metric-value" id="metric-failed">0</div><div class="metric-foot">FAILED</div></div>
+          <div class="metric"><div class="metric-label"><span>运行时长</span><svg class="icon"><use href="#icon-clock"/></svg></div><div class="metric-value time-value" id="metric-elapsed">00:00:00</div><div class="metric-foot">ELAPSED</div></div>
+        </section>
+        <div class="dashboard-grid">
+          <section class="panel config-panel" aria-labelledby="config-heading">
+            <div class="panel-header"><h2 id="config-heading"><svg class="icon"><use href="#icon-settings"/></svg>任务设置</h2><div class="segmented" role="tablist" aria-label="设置分类"><button id="basic-tab" role="tab" aria-selected="true" aria-controls="basic-settings" class="active">基础</button><button id="advanced-tab" role="tab" aria-selected="false" aria-controls="advanced-settings" tabindex="-1">高级</button></div></div>
+            <form id="config-form" autocomplete="off">
+              <fieldset id="config-fields">
+                <div id="basic-settings" class="settings-pane" role="tabpanel" aria-labelledby="basic-tab">
+                  <div class="section-label"><span>01</span>采集目标</div>
+                  <div class="target-mode" aria-label="目标类型"><button type="button" class="active" id="uid-mode" aria-pressed="true">用户 UID</button><button type="button" id="album-mode" aria-pressed="false">相册链接</button></div>
+                  <div class="field" id="uid-field"><label for="user_ids">用户 UID <span>每行一个</span></label><textarea id="user_ids" name="user_ids" rows="2" placeholder="3576729842" spellcheck="false"></textarea></div>
+                  <div class="field" id="album-field" hidden><label for="album_urls">相册链接 <span>每行一个</span></label><textarea id="album_urls" name="album_urls" rows="2" placeholder="https://weibo.cn/album/…" spellcheck="false"></textarea></div>
+                  <div class="field" id="album-names-field"><label for="album_names">相册筛选 <span>留空为全部</span></label><input id="album_names" name="album_names" placeholder="相册名称，以逗号分隔"></div>
+                  <div class="section-label"><span>02</span>图片与输出</div>
+                  <div class="field"><label for="output_dir">保存目录</label><input id="output_dir" name="output_dir" class="mono-input" spellcheck="false"></div>
+                  <div class="field"><label for="max_images">图片上限 <span>0 = 不限</span></label><input id="max_images" name="max_images" type="number" min="0" max="10000000" required></div>
+                  <div class="switch-row"><label for="resize_enabled">启用长边缩放</label><label class="switch"><input type="checkbox" id="resize_enabled" name="resize_enabled"><span></span></label></div>
+                  <div class="field" id="image-long-edge-field" hidden><label for="image_long_edge">图片长边 <span>px</span></label><input id="image_long_edge" name="image_long_edge" type="number" min="1" max="20000" value="1024" disabled required></div>
+                  <div class="field"><label for="crop_bottom">底部裁剪 <span>输出像素 · 0 = 不裁剪</span></label><div class="crop-setting"><input id="crop_bottom" name="crop_bottom" type="number" min="0" max="19999" value="0" required><button type="button" class="button button-secondary" id="open-crop"><svg class="icon"><use href="#icon-crop"/></svg>图片标记</button></div></div>
+                  <div class="switch-row"><label for="original_size">优先原图</label><label class="switch"><input type="checkbox" id="original_size" name="original_size"><span></span></label></div>
+                  <div class="switch-row"><label for="include_avatar">包含头像相册</label><label class="switch"><input type="checkbox" id="include_avatar" name="include_avatar"><span></span></label></div>
+                  <div class="section-label"><span>03</span>登录凭据<span class="section-note">仅本次使用</span></div>
+                  <div class="field cookie-field"><label for="cookie">Cookie <a href="https://weibo.cn" target="_blank" rel="noreferrer">weibo.cn <svg class="icon"><use href="#icon-arrow"/></svg></a></label><div class="input-action"><input id="cookie" type="password" placeholder="粘贴登录后的 Cookie" autocomplete="off" spellcheck="false"><button type="button" id="show-cookie" aria-label="显示 Cookie" aria-pressed="false"><svg class="icon"><use href="#icon-eye"/></svg></button></div></div>
+                </div>
+                <div id="advanced-settings" class="settings-pane" role="tabpanel" aria-labelledby="advanced-tab" hidden>
+                  <div class="section-label"><span>01</span>请求与并发</div>
+                  <div class="field-row"><div class="field"><label for="download_workers">下载并发</label><input type="number" id="download_workers" name="download_workers" min="1" max="32" required></div><div class="field"><label for="request_interval">请求间隔 <span>s</span></label><input type="number" id="request_interval" name="request_interval" min="0" max="3600" step="any" required></div></div>
+                  <div class="field-row"><div class="field"><label for="timeout">请求超时 <span>s</span></label><input type="number" id="timeout" name="timeout" min="0.1" max="3600" step="any" required></div><div class="field"><label for="retries">失败重试</label><input type="number" id="retries" name="retries" min="0" max="20" required></div></div>
+                  <div class="field"><label for="max_pages">每个目标页面上限</label><input type="number" id="max_pages" name="max_pages" min="1" max="1000000" required></div>
+                  <div class="section-label"><span>02</span>文件命名</div><div class="field"><label for="filename_prefix">文件名前缀</label><input id="filename_prefix" name="filename_prefix" maxlength="80" required spellcheck="false"><div class="filename-preview mono" id="filename-preview">weibo_0001.jpg</div></div>
+                </div>
+              </fieldset>
+            </form>
+            <div class="config-footer"><span id="save-state"><span class="status-dot"></span>已加载设置</span><button class="button button-save" id="save-button" disabled><svg class="icon"><use href="#icon-save"/></svg>保存设置</button></div>
+          </section>
+          <div class="monitor-column">
+            <section class="panel progress-panel" aria-labelledby="progress-heading">
+              <div class="panel-header"><h2 id="progress-heading"><svg class="icon"><use href="#icon-activity"/></svg>采集进度</h2><span class="status-badge" id="run-status"><span class="status-dot"></span><span id="status-text">待运行</span></span></div>
+              <div class="progress-content"><div class="progress-main"><div><div class="subtle-label" id="progress-caption">有效图片 / 采集上限</div><div class="progress-number"><span id="progress-number">0.0</span><span id="progress-unit">%</span></div></div><div class="progress-tally"><strong id="progress-tally">0 <span>/ 1,000</span></strong><span id="progress-stage">等待开始</span></div></div>
+              <div class="progress-track" id="progress-track" role="progressbar" aria-label="有效图片占采集上限" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress-fill"></div></div>
+              <div class="throughput"><div class="throughput-heading"><span>实时下载速率</span><span><strong id="rate-value">0.0</strong><span class="rate-unit"> 张 / s</span></span></div><svg id="rate-chart" viewBox="0 0 600 58" preserveAspectRatio="none" role="img" aria-label="最近一分钟下载速率"><path class="chart-grid" d="M0 12H600M0 34H600M0 56H600"/><path class="chart-area" id="chart-area" d="M0 56H600V58H0Z"/><path class="chart-line" id="chart-line" d="M0 56H600"/></svg><div class="chart-labels"><span>−60 s</span><span>现在</span></div></div>
+              <div class="run-details"><div><span>当前目标</span><strong id="current-target" class="mono">—</strong></div><div><span>当前相册</span><strong id="current-album">—</strong></div><div><span>完成目标</span><strong id="targets-done" class="mono">0 / 1</strong></div><div><span>请求页面</span><strong id="pages-count" class="mono">0</strong></div><div><span>本次写入</span><strong id="bytes-count" class="mono">0 B</strong></div></div>
+              <div id="run-error" class="run-error" role="alert" hidden></div></div>
+            </section>
+            <section class="panel log-panel" aria-labelledby="log-heading"><div class="panel-header log-header"><div class="log-tabs" role="tablist" aria-label="运行数据"><button id="live-tab" role="tab" aria-selected="true" aria-controls="log-view" class="active"><svg class="icon"><use href="#icon-terminal"/></svg><span id="log-heading">实时日志</span><span class="log-count" id="log-count">0</span></button><button id="history-tab" role="tab" aria-selected="false" aria-controls="history-view" tabindex="-1">运行记录</button></div><div class="log-actions"><select id="log-filter" aria-label="日志筛选"><option value="all">全部</option><option value="error">错误</option><option value="warning">警告</option><option value="success">下载</option></select><button class="icon-button" id="export-log" title="导出日志" aria-label="导出日志"><svg class="icon"><use href="#icon-download"/></svg></button><button class="icon-button" id="clear-log" title="清空显示" aria-label="清空日志显示"><svg class="icon"><use href="#icon-trash"/></svg></button></div></div>
+              <div class="log-view" id="log-view" role="tabpanel" aria-labelledby="live-tab" tabindex="0"><div class="empty-state" id="log-empty"><span class="terminal-cursor">_</span><span>等待任务启动</span></div><div id="log-lines"></div></div>
+              <div class="history-view" id="history-view" role="tabpanel" aria-labelledby="history-tab" tabindex="0" hidden><div class="empty-state">暂无运行记录</div></div>
+              <div class="log-footer"><span><span class="status-dot" id="log-dot"></span><span id="log-footer-text">就绪</span></span><label class="auto-scroll"><input type="checkbox" id="auto-scroll" checked>自动滚动</label></div>
+            </section>
+          </div>
+        </div>
+      </main>
+      <footer class="workspace-footer"><span><span class="status-dot" id="footer-dot"></span><span id="footer-state">连接中</span></span><span class="mono">HTML / PYTHON<span class="footer-separator">·</span>127.0.0.1</span></footer>
+    </div>
+  </div>
+  <dialog id="crop-dialog" class="crop-dialog" aria-labelledby="crop-title">
+    <div class="crop-dialog-header"><h2 id="crop-title"><svg class="icon"><use href="#icon-crop"/></svg>底部裁剪</h2><button type="button" class="icon-button crop-close" id="crop-close" aria-label="关闭裁剪预览">×</button></div>
+    <div class="crop-editor-body">
+      <div class="crop-image-area">
+        <div class="crop-image-toolbar"><button class="button button-secondary" type="button" id="crop-open-file"><svg class="icon"><use href="#icon-image"/></svg>打开图片</button><span id="crop-source-name">未选择图片</span><input type="file" id="crop-file" accept="image/*" hidden></div>
+        <div class="crop-stage" id="crop-stage"><div class="crop-empty" id="crop-empty"><svg class="icon"><use href="#icon-image"/></svg><span>打开一张图片</span></div><canvas id="crop-canvas" role="slider" tabindex="0" aria-label="底部裁剪像素，方向键调整" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" hidden></canvas></div>
+        <div class="crop-image-meta"><span id="crop-source-size">—</span><span>拖动绿线 · ↑↓ 微调</span></div>
+      </div>
+      <div class="crop-controls">
+        <div class="crop-result-heading">裁后预览</div>
+        <div class="crop-preview-wrap"><canvas id="crop-preview" aria-label="裁剪后的图片预览" hidden></canvas><span id="crop-preview-empty">—</span></div>
+        <label for="crop-pixels">底部裁剪</label><div class="crop-pixel-field"><input type="number" id="crop-pixels" min="0" max="19999" value="0" disabled><span>px</span></div>
+        <input type="range" id="crop-range" min="0" max="0" value="0" step="1" aria-label="底部裁剪像素" disabled>
+        <div class="crop-dimensions"><span>保留尺寸</span><strong id="crop-kept-size">—</strong></div>
+        <div class="crop-scale-note" id="crop-scale-note">像素按原图尺寸计算</div>
+        <p id="crop-editor-error" class="crop-editor-error" role="alert" hidden></p>
+      </div>
+    </div>
+    <div class="crop-dialog-footer"><button class="button button-secondary" type="button" id="crop-reset" disabled>重置</button><div><button class="button button-secondary" type="button" id="crop-cancel">取消</button><button class="button button-primary" type="button" id="crop-apply" disabled>应用裁剪</button></div></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" hidden><svg class="icon"><use id="toast-icon" href="#icon-check"/></svg><span id="toast-text"></span></div>
+</body>
+</html>
