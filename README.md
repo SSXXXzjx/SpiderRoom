@@ -11,8 +11,8 @@
 
 ## 启动
 
-1. 安装 Python 3.10+，并在微博爬虫目录执行 `python -m pip install -r requirements.txt`。
-2. 在 `tools.json` 中填写微博爬虫路径。该目录需包含 `weibo_spider/album_spider.py`、`image_output.py` 和 `main.py`；使用当前接入的微博相册版本。
+1. 安装 Python 3.10+，在本项目根目录执行 `python -m pip install -r requirements.txt`。
+2. 微博爬虫已内置于 `crawlers/weibo/`，`tools.json` 默认使用项目内的相对路径。
 3. Windows 双击 `start.bat`，或执行：
 
    ```bash
@@ -33,4 +33,4 @@
 
 配置和运行记录位于 `data/`，不提交到仓库。Cookie 仅用于当次运行，不写入文件。服务仅监听本机；终端按 Ctrl+C 停止服务和采集。
 
-微博爬虫是独立项目，本仓库包含管理页面、运行服务和适配代码。新增其他爬虫需要添加对应适配器与设置表单。
+本仓库包含管理页面、运行服务，以及从本地 `weiboSpider` 整合的完整爬虫源码、依赖、文档和测试。原爬虫基于 [dataabc/weiboSpider](https://github.com/dataabc/weiboSpider)，原项目说明保留于 `crawlers/weibo/README.md`。新增其他爬虫需要添加对应适配器与设置表单。

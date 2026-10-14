@@ -3,7 +3,7 @@
     {
       "id": "weibo",
       "name": "微博相册",
-      "path": "E:\\MyWorls\\weiboSpider",
+      "path": "crawlers/weibo",
       "adapter": "weibo-album",
       "python": ""
     }

@@ -19,7 +19,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parent
 DEFAULTS = {
     "user_ids": ["3576729842"], "album_urls": [], "album_names": [],
-    "output_dir": r"E:\MyWorls\weiboSpider\downloads", "max_images": 1000,
+    "output_dir": str(ROOT / "downloads"), "max_images": 1000,
     "include_avatar": False, "original_size": True, "max_pages": 500,
     "request_interval": 1, "download_workers": 6, "filename_prefix": "weibo",
     "image_long_edge": 1024, "resize_enabled": False, "crop_bottom": 0, "timeout": 30, "retries": 3,
@@ -95,6 +95,9 @@ class Room:
         self.sample_count = 0
         manifest = json.loads((root / "tools.json").read_text(encoding="utf-8"))
         self.tools = manifest["tools"]
+        for tool in self.tools:
+            path = Path(tool["path"]).expanduser()
+            tool["path"] = str((path if path.is_absolute() else root / path).resolve())
         self.tool = self.tools[0]
         self.spider_path = Path(self.tool["path"])
         self.config_path = root / "data" / "weibo-config.json"
@@ -105,6 +108,9 @@ class Room:
                 if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == "CONFIG" for target in node.targets):
                     defaults.update({key: value for key, value in ast.literal_eval(node.value).items() if key in DEFAULTS})
                     break
+        output = Path(defaults["output_dir"]).expanduser()
+        if not output.is_absolute():
+            defaults["output_dir"] = str((self.spider_path / output).resolve())
         self.config = validate_config(json.loads(self.config_path.read_text(encoding="utf-8")) if self.config_path.exists() else defaults)
         self.history_path = root / "data" / "history.json"
         self.history = json.loads(self.history_path.read_text(encoding="utf-8")) if self.history_path.exists() else []
@@ -138,7 +144,7 @@ class Room:
             return {**copy.deepcopy(self.state), "elapsed": max(0, int(elapsed)), "limit": total,
                     "progress": percent, "rate": self.samples[-1] if active and self.samples else 0,
                     "samples": list(self.samples), "logs": list(self.logs), "history": self.history,
-                    "tools": [{**tool, "available": Path(tool["path"]).is_dir()} for tool in self.tools],
+                    "tools": [{**tool, "available": (Path(tool["path"]) / "weibo_spider" / "album_spider.py").is_file()} for tool in self.tools],
                     "output_dir": self.run_config["output_dir"], "connected": True}
 
     def save(self, values):
