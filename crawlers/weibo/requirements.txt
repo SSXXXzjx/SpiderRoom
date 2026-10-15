@@ -1,4 +1,4 @@
-lxml
+lxml>=6,<7
 requests==2.32.4
 tqdm==4.66.3
 absl-py==0.12.0

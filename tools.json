@@ -6,6 +6,27 @@
       "path": "crawlers/weibo",
       "adapter": "weibo-album",
       "python": ""
+    },
+    {
+      "id": "xhs",
+      "name": "小红书图集",
+      "path": "crawlers/xhs",
+      "adapter": "xhs-images",
+      "python": ""
+    },
+    {
+      "id": "google",
+      "name": "谷歌图片",
+      "path": "crawlers/google_images",
+      "adapter": "google-images",
+      "python": ""
+    },
+    {
+      "id": "pinterest",
+      "name": "Pinterest 图集",
+      "path": "crawlers/pinterest",
+      "adapter": "pinterest-dl",
+      "python": ""
     }
   ]
 }

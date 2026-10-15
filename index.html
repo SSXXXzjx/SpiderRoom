@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>SpiderRoom · 爬虫控制台</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121315'/%3E%3Cpath d='M9 7l14 18M23 7L9 25M6 16h20' stroke='%23c2ff63' stroke-width='3'/%3E%3C/svg%3E">
+  <title>SpiderRoom</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121315'/%3E%3Cpath d='M9 7l14 18M23 7L9 25M6 16h20' stroke='%239bb8b0' stroke-width='3'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
@@ -31,27 +31,29 @@
     <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
     <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
     <symbol id="icon-activity" viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></symbol>
+    <symbol id="icon-sidebar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m6-11-3 3 3 3"/></symbol>
     <symbol id="icon-crop" viewBox="0 0 24 24"><path d="M6 3v15h15M3 6h15v15M3 21h18"/></symbol>
   </svg>
   <div class="app-shell">
-    <aside class="sidebar" aria-label="爬虫导航">
-      <a class="brand" href="/" aria-label="SpiderRoom 首页"><span class="brand-mark"><svg class="icon"><use href="#icon-spider"/></svg></span><span>Spider<span class="brand-light">Room</span><small>LOCAL WORKSPACE</small></span></a>
-      <div class="workspace-label"><svg class="icon"><use href="#icon-grid"/></svg><span>爬虫控制台</span><span class="small-tag">01</span></div>
+    <aside id="sidebar-navigation" class="sidebar" aria-label="爬虫导航">
+      <div class="sidebar-header"><a class="brand" href="/" aria-label="SpiderRoom 首页"><span class="brand-mark"><svg class="icon"><use href="#icon-spider"/></svg></span><span>Spider<span class="brand-light">Room</span></span></a></div>
       <div class="search-box"><svg class="icon"><use href="#icon-search"/></svg><input id="tool-search" type="search" placeholder="搜索工具" aria-label="搜索爬虫工具" autocomplete="off"><kbd>/</kbd></div>
-      <div class="nav-heading"><span>爬虫工具</span><span id="tool-count">01</span></div>
-      <nav id="tool-list"><button class="tool-item selected" id="weibo-nav" aria-current="page"><span class="tool-logo"><svg class="icon"><use href="#icon-spider"/></svg></span><span class="tool-name">微博相册<small>weiboSpider</small></span><span id="nav-dot" class="status-dot"></span></button></nav>
+      <div class="nav-heading" id="crawler-group"><span>爬虫工具</span></div>
+      <nav id="tool-list" aria-label="爬虫工具"><button class="tool-item selected" id="weibo-nav" title="微博相册" aria-label="微博相册" aria-current="page"><span class="tool-logo"><img src="resources/icons/微博-display.png" alt=""></span><span class="tool-name">微博相册</span><span id="nav-dot" class="status-dot"></span></button><button class="tool-item" id="xhs-nav" title="小红书图集" aria-label="小红书图集"><span class="tool-logo"><img src="resources/icons/小红书-display.png" alt=""></span><span class="tool-name">小红书图集</span><span id="xhs-nav-dot" class="status-dot"></span></button><button class="tool-item" id="google-nav" title="谷歌图片" aria-label="谷歌图片"><span class="tool-logo"><img src="resources/icons/谷歌.png" alt=""></span><span class="tool-name">谷歌图片</span><span id="google-nav-dot" class="status-dot"></span></button><button class="tool-item" id="pinterest-nav" title="Pinterest 图集" aria-label="Pinterest 图集"><span class="tool-logo"><img src="resources/icons/Pinterest-display.png" alt=""></span><span class="tool-name">Pinterest 图集</span><span id="pinterest-nav-dot" class="status-dot"></span></button></nav>
+      <div class="nav-heading image-group-heading" id="image-group"><span>图片工具</span></div>
+      <nav aria-label="图片工具"><button class="tool-item" id="crop-nav" title="图片裁剪与缩放" aria-label="图片裁剪与缩放"><span class="tool-logo"><img src="resources/icons/裁剪,剪开.png" alt=""></span><span class="tool-name">图片裁剪</span></button></nav>
       <p class="search-empty" id="search-empty" hidden>无匹配工具</p>
-      <div class="sidebar-bottom"><div class="local-indicator"><span class="status-dot" id="connection-dot"></span><span id="connection-text">连接中</span><span class="mono">LOCAL</span></div><div class="version-line"><span>SpiderRoom</span><span class="mono">v1.0</span></div></div>
+      <div class="sidebar-bottom"><div class="local-indicator"><span class="status-dot" id="connection-dot"></span><span id="connection-text">连接中</span></div></div>
     </aside>
     <div class="workspace">
-      <header class="topbar"><div class="breadcrumb"><span>爬虫工具</span><svg class="icon"><use href="#icon-chevron"/></svg><strong>微博相册</strong></div><div class="topbar-end"><span class="service-label"><span class="status-dot" id="service-dot"></span><span id="service-text">本地服务</span></span><span class="header-divider"></span><span class="mono">WORKSPACE / 01</span></div></header>
+      <header class="topbar"><div class="topbar-start"><button id="sidebar-toggle" class="icon-button" type="button" aria-label="收起侧边栏" aria-expanded="true" aria-controls="sidebar-navigation" title="收起侧边栏"><svg class="icon"><use href="#icon-sidebar"/></svg></button><div class="breadcrumb"><span id="breadcrumb-group">爬虫工具</span><svg class="icon"><use href="#icon-chevron"/></svg><strong id="breadcrumb-tool">微博相册</strong></div></div><div class="topbar-end"><span class="service-label"><span class="status-dot" id="service-dot"></span><span id="service-text">本地服务</span></span></div></header>
       <main id="main-content">
-        <section class="page-heading"><div><div class="eyebrow"><span class="green-line"></span>WEIBO SPIDER</div><h1>微博相册<span class="title-tag">图片采集</span></h1><div class="project-path" id="project-path">crawlers/weibo</div></div><div class="run-actions"><button class="button button-secondary" id="open-crop-top" title="裁剪预览"><svg class="icon"><use href="#icon-crop"/></svg><span>裁剪预览</span></button><button class="button button-secondary" id="open-output" title="输出目录"><svg class="icon"><use href="#icon-folder"/></svg><span>输出目录</span></button><button class="button button-primary" id="run-button" disabled><svg class="icon"><use id="run-icon" href="#icon-play"/></svg><span id="run-label">开始采集</span></button></div></section>
+        <div id="crawler-page" class="crawler-page"><section class="page-heading"><h1 id="page-title">微博相册</h1><div class="run-actions"><button class="button button-secondary" id="open-gallery" title="图片预览" disabled><svg class="icon"><use href="#icon-image"/></svg><span>图片预览</span></button><button class="button button-secondary" id="open-output" title="输出目录"><svg class="icon"><use href="#icon-folder"/></svg><span>输出目录</span></button><button class="button button-primary" id="run-button" disabled><svg class="icon"><use id="run-icon" href="#icon-play"/></svg><span id="run-label">开始采集</span></button></div></section>
         <section class="metrics" aria-label="本次运行统计">
-          <div class="metric"><div class="metric-label"><span>新增图片</span><svg class="icon"><use href="#icon-image"/></svg></div><div class="metric-value accent" id="metric-downloaded">0</div><div class="metric-foot">DOWNLOADED</div></div>
-          <div class="metric"><div class="metric-label"><span>已存在 · 跳过</span><svg class="icon"><use href="#icon-layers"/></svg></div><div class="metric-value" id="metric-existing">0</div><div class="metric-foot">SKIPPED</div></div>
-          <div class="metric"><div class="metric-label"><span>下载失败</span><svg class="icon"><use href="#icon-error"/></svg></div><div class="metric-value" id="metric-failed">0</div><div class="metric-foot">FAILED</div></div>
-          <div class="metric"><div class="metric-label"><span>运行时长</span><svg class="icon"><use href="#icon-clock"/></svg></div><div class="metric-value time-value" id="metric-elapsed">00:00:00</div><div class="metric-foot">ELAPSED</div></div>
+          <div class="metric"><div class="metric-label"><span>新增图片</span><svg class="icon"><use href="#icon-image"/></svg></div><div class="metric-value accent" id="metric-downloaded">0</div></div>
+          <div class="metric"><div class="metric-label"><span>已存在 · 跳过</span><svg class="icon"><use href="#icon-layers"/></svg></div><div class="metric-value" id="metric-existing">0</div></div>
+          <div class="metric"><div class="metric-label"><span>下载失败</span><svg class="icon"><use href="#icon-error"/></svg></div><div class="metric-value" id="metric-failed">0</div></div>
+          <div class="metric"><div class="metric-label"><span>运行时长</span><svg class="icon"><use href="#icon-clock"/></svg></div><div class="metric-value time-value" id="metric-elapsed">00:00:00</div></div>
         </section>
         <div class="dashboard-grid">
           <section class="panel config-panel" aria-labelledby="config-heading">
@@ -60,27 +62,78 @@
               <fieldset id="config-fields">
                 <div id="basic-settings" class="settings-pane" role="tabpanel" aria-labelledby="basic-tab">
                   <div class="section-label"><span>01</span>采集目标</div>
-                  <div class="target-mode" aria-label="目标类型"><button type="button" class="active" id="uid-mode" aria-pressed="true">用户 UID</button><button type="button" id="album-mode" aria-pressed="false">相册链接</button></div>
+                  <div id="weibo-targets"><div class="target-mode" aria-label="目标类型"><button type="button" class="active" id="uid-mode" aria-pressed="true">用户 UID</button><button type="button" id="album-mode" aria-pressed="false">相册链接</button></div>
                   <div class="field" id="uid-field"><label for="user_ids">用户 UID <span>每行一个</span></label><textarea id="user_ids" name="user_ids" rows="2" placeholder="3576729842" spellcheck="false"></textarea></div>
                   <div class="field" id="album-field" hidden><label for="album_urls">相册链接 <span>每行一个</span></label><textarea id="album_urls" name="album_urls" rows="2" placeholder="https://weibo.cn/album/…" spellcheck="false"></textarea></div>
                   <div class="field" id="album-names-field"><label for="album_names">相册筛选 <span>留空为全部</span></label><input id="album_names" name="album_names" placeholder="相册名称，以逗号分隔"></div>
-                  <div class="section-label"><span>02</span>图片与输出</div>
-                  <div class="field"><label for="output_dir">保存目录</label><input id="output_dir" name="output_dir" class="mono-input" spellcheck="false"></div>
-                  <div class="field"><label for="max_images">图片上限 <span>0 = 不限</span></label><input id="max_images" name="max_images" type="number" min="0" max="10000000" required></div>
-                  <div class="switch-row"><label for="resize_enabled">启用长边缩放</label><label class="switch"><input type="checkbox" id="resize_enabled" name="resize_enabled"><span></span></label></div>
-                  <div class="field" id="image-long-edge-field" hidden><label for="image_long_edge">图片长边 <span>px</span></label><input id="image_long_edge" name="image_long_edge" type="number" min="1" max="20000" value="1024" disabled required></div>
-                  <div class="field"><label for="crop_bottom">底部裁剪 <span>输出像素 · 0 = 不裁剪</span></label><div class="crop-setting"><input id="crop_bottom" name="crop_bottom" type="number" min="0" max="19999" value="0" required><button type="button" class="button button-secondary" id="open-crop"><svg class="icon"><use href="#icon-crop"/></svg>图片标记</button></div></div>
-                  <div class="switch-row"><label for="original_size">优先原图</label><label class="switch"><input type="checkbox" id="original_size" name="original_size"><span></span></label></div>
-                  <div class="switch-row"><label for="include_avatar">包含头像相册</label><label class="switch"><input type="checkbox" id="include_avatar" name="include_avatar"><span></span></label></div>
-                  <div class="section-label"><span>03</span>登录凭据<span class="section-note">仅本次使用</span></div>
-                  <div class="field cookie-field"><label for="cookie">Cookie <a href="https://weibo.cn" target="_blank" rel="noreferrer">weibo.cn <svg class="icon"><use href="#icon-arrow"/></svg></a></label><div class="input-action"><input id="cookie" type="password" placeholder="粘贴登录后的 Cookie" autocomplete="off" spellcheck="false"><button type="button" id="show-cookie" aria-label="显示 Cookie" aria-pressed="false"><svg class="icon"><use href="#icon-eye"/></svg></button></div></div>
+                  </div>
+                  <div id="xhs-targets" hidden>
+                    <div class="target-mode" aria-label="小红书目标类型"><button type="button" id="xhs-note-mode" class="active" aria-pressed="true">笔记链接</button><button type="button" id="xhs-profile-mode" aria-pressed="false">用户主页</button><button type="button" id="xhs-search-mode" aria-pressed="false">关键词</button></div>
+                    <div class="field" id="xhs-note-field"><label for="note_urls">笔记链接 <span>每行一个</span></label><textarea id="note_urls" rows="2" spellcheck="false" placeholder="https://www.xiaohongshu.com/explore/…?xsec_token=…"></textarea></div>
+                    <div class="field" id="xhs-profile-field" hidden><label for="profile_urls">用户主页 <span>每行一个</span></label><textarea id="profile_urls" rows="2" spellcheck="false" placeholder="https://www.xiaohongshu.com/user/profile/…"></textarea></div>
+                    <div id="xhs-search-field" hidden><div class="field"><label for="keywords">搜索关键词 <span>每行一个</span></label><textarea id="keywords" rows="2" placeholder="风景摄影"></textarea></div><div class="field-row"><div class="field"><label for="search_limit">每个关键词笔记数</label><input id="search_limit" type="number" min="1" max="100000" value="100" required></div><div class="field"><label for="sort_type">搜索排序</label><select id="sort_type"><option value="0">综合</option><option value="1">最新</option><option value="2">最多点赞</option><option value="3">最多评论</option><option value="4">最多收藏</option></select></div></div></div>
+                    <p class="target-hint">采集图文笔记，自动跳过视频。请使用网页版完整链接，保留 xsec_token 参数。</p>
+                  </div>
+                  <div id="pinterest-targets" hidden>
+                    <div class="pinterest-target-modes" role="group" aria-label="Pinterest 目标类型">
+                      <button type="button" id="pinterest-pin-mode" class="active" aria-pressed="true" aria-controls="pinterest-pin-field">单个 Pin</button>
+                      <button type="button" id="pinterest-board-mode" aria-pressed="false" aria-controls="pinterest-board-field">整块画板</button>
+                      <button type="button" id="pinterest-section-mode" aria-pressed="false" aria-controls="pinterest-section-field">画板分区</button>
+                      <button type="button" id="pinterest-profile-mode" aria-pressed="false" aria-controls="pinterest-profile-field">用户主页</button>
+                      <button type="button" id="pinterest-short-mode" aria-pressed="false" aria-controls="pinterest-short-field">分享短链接</button>
+                      <button type="button" id="pinterest-search-mode" aria-pressed="false" aria-controls="pinterest-search-field">关键词搜索</button>
+                    </div>
+                    <div id="pinterest-pin-field"><div class="field"><label for="pinterest_urls">Pin 链接或数字 ID <span>每行一个</span></label><textarea id="pinterest_urls" rows="3" spellcheck="false" placeholder="https://www.pinterest.com/pin/123456789012345678/&#10;或直接输入数字 Pin ID" aria-describedby="pinterest-pin-hint"></textarea></div><p class="target-hint" id="pinterest-pin-hint">打开某一张图片，复制地址栏中的 /pin/… 链接。只采集指定 Pin 的图片，不包含推荐图片。</p></div>
+                    <div id="pinterest-board-field" hidden><div class="field"><label for="pinterest_board_urls">画板链接 <span>每行一个</span></label><textarea id="pinterest_board_urls" rows="3" spellcheck="false" placeholder="https://www.pinterest.com/用户名/画板名/&#10;或输入：用户名/画板名" aria-describedby="pinterest-board-hint"></textarea></div><p class="target-hint" id="pinterest-board-hint">在用户主页打开某个画板，复制画板地址。采集该画板中的图片；下方可选择是否包含画板分区。</p></div>
+                    <div id="pinterest-section-field" hidden><div class="field"><label for="pinterest_section_urls">分区链接 <span>每行一个</span></label><textarea id="pinterest_section_urls" rows="3" spellcheck="false" placeholder="https://www.pinterest.com/用户名/画板名/分区名/" aria-describedby="pinterest-section-hint"></textarea></div><p class="target-hint" id="pinterest-section-hint">在画板内进入某个分区，再复制地址。只采集这个分区；不受「包含画板分区」开关影响。</p></div>
+                    <div id="pinterest-profile-field" hidden><div class="field"><label for="pinterest_profile_urls">用户主页链接或用户名 <span>每行一个</span></label><textarea id="pinterest_profile_urls" rows="3" spellcheck="false" placeholder="https://www.pinterest.com/用户名/&#10;或直接输入用户名" aria-describedby="pinterest-profile-hint"></textarea></div><p class="target-hint" id="pinterest-profile-hint">采集该用户可访问的画板。该用户的所有画板共用一份图片上限；私密内容需要有效 Cookie。</p></div>
+                    <div id="pinterest-short-field" hidden><div class="field"><label for="pinterest_short_urls">pin.it 分享链接 <span>每行一个</span></label><textarea id="pinterest_short_urls" rows="3" spellcheck="false" placeholder="https://pin.it/AbCd12345" aria-describedby="pinterest-short-hint"></textarea></div><p class="target-hint" id="pinterest-short-hint">粘贴 Pinterest「分享 → 复制链接」得到的完整 pin.it 地址。自动解析后按实际 Pin、画板或分区采集。</p></div>
+                    <div id="pinterest-search-field" hidden><div class="field"><label for="pinterest_keywords">搜索关键词 <span>每行一个</span></label><textarea id="pinterest_keywords" rows="3" placeholder="风景摄影&#10;室内设计&#10;minimalist poster" aria-describedby="pinterest-search-hint"></textarea></div><p class="target-hint" id="pinterest-search-hint">输入关键词即可搜索图片，也可粘贴包含 q 参数的 Pinterest 搜索结果链接。每个关键词单独计算图片上限；搜索受限时可填写登录 Cookie 或检查代理。</p></div>
+                    <p class="target-hint pinterest-input-summary" id="pinterest-input-summary" aria-live="polite">各分类可同时填写，开始采集时一起执行。</p>
+                    <div class="switch-row"><label for="include_sections">包含画板分区</label><label class="switch"><input id="include_sections" type="checkbox" checked><span></span></label></div>
+                    <div class="field-row"><div class="field"><label for="pinterest_min_width">最小宽度 <span>px · 0 = 不限</span></label><input id="pinterest_min_width" type="number" min="0" max="50000" value="0" required></div><div class="field"><label for="pinterest_min_height">最小高度 <span>px · 0 = 不限</span></label><input id="pinterest_min_height" type="number" min="0" max="50000" value="0" required></div></div>
+                    <p class="target-hint">图片上限按每条输入目标或每个关键词计算。当前采集图片及视频封面，不下载视频文件。</p>
+                  </div>
+                  <div id="google-targets" hidden>
+                    <div class="field"><label for="google_keywords">搜索关键词 <span>每行一个</span></label><textarea id="google_keywords" rows="3" placeholder="自然风景摄影&#10;建筑设计"></textarea></div>
+                    <div class="field-row"><div class="field"><label for="min_width">最小宽度 <span>px · 0 = 不限</span></label><input id="min_width" type="number" min="0" max="50000" value="0" required></div><div class="field"><label for="min_height">最小高度 <span>px · 0 = 不限</span></label><input id="min_height" type="number" min="0" max="50000" value="0" required></div></div>
+                    <div class="field-row"><div class="field"><label for="google_size">搜索尺寸</label><select id="google_size"><option value="any">不限</option><option value="large">大尺寸</option><option value="medium">中等尺寸</option><option value="icon">图标</option></select></div><div class="field"><label for="google_type">图片类型</label><select id="google_type"><option value="any">不限</option><option value="photo">照片</option><option value="clipart">剪贴画</option><option value="lineart">线条画</option><option value="animated">动图来源</option></select></div></div>
+                    <div class="field"><label for="google_color">图片颜色</label><select id="google_color"><option value="any">不限</option><option value="color">彩色</option><option value="gray">黑白</option><option value="trans">透明来源</option></select></div>
+                    <div class="switch-row"><label for="safe_search">安全搜索</label><label class="switch"><input id="safe_search" type="checkbox" checked><span></span></label></div>
+                    <p class="target-hint">无需 Cookie。采集来源站原图并校验实际尺寸；网络代理可在高级设置填写。默认保留原图格式；开启裁剪或缩放后保存为 JPG，动图处理首帧。</p>
+                  </div>
+                  <div class="section-label"><span>02</span>保存设置</div>
+                  <div class="field"><label for="output_dir">保存目录</label><div class="directory-setting"><input id="output_dir" name="output_dir" class="mono-input" spellcheck="false"><button class="button button-secondary" type="button" id="select-output" title="选择保存目录"><svg class="icon"><use href="#icon-folder"/></svg><span>选择目录</span></button></div></div>
+                  <div class="field"><label for="max_images">图片上限 <span>每个目标 · 0 = 不限</span></label><input id="max_images" name="max_images" type="number" min="0" max="10000000" required></div>
+                  <div class="switch-row" id="original-setting"><label for="original_size">优先原图</label><label class="switch"><input type="checkbox" id="original_size" name="original_size"><span></span></label></div>
+                  <div class="switch-row" id="avatar-setting"><label for="include_avatar">包含头像相册</label><label class="switch"><input type="checkbox" id="include_avatar" name="include_avatar"><span></span></label></div>
+                  <div id="credentials-settings"><div class="section-label"><span>03</span>登录凭据<span class="section-note">可保存到本机</span></div>
+                  <div class="field cookie-field"><label for="cookie">Cookie <span>保存设置后保留在本机</span> <span id="cookie-optional" hidden>可选</span> <a id="cookie-site" href="https://weibo.cn" target="_blank" rel="noreferrer">weibo.cn <svg class="icon"><use href="#icon-arrow"/></svg></a></label><div class="input-action"><input id="cookie" type="password" placeholder="粘贴登录后的 Cookie" autocomplete="off" spellcheck="false"><button type="button" id="show-cookie" aria-label="显示 Cookie" aria-pressed="false"><svg class="icon"><use href="#icon-eye"/></svg></button></div></div>
+                  </div>
                 </div>
                 <div id="advanced-settings" class="settings-pane" role="tabpanel" aria-labelledby="advanced-tab" hidden>
                   <div class="section-label"><span>01</span>请求与并发</div>
                   <div class="field-row"><div class="field"><label for="download_workers">下载并发</label><input type="number" id="download_workers" name="download_workers" min="1" max="32" required></div><div class="field"><label for="request_interval">请求间隔 <span>s</span></label><input type="number" id="request_interval" name="request_interval" min="0" max="3600" step="any" required></div></div>
                   <div class="field-row"><div class="field"><label for="timeout">请求超时 <span>s</span></label><input type="number" id="timeout" name="timeout" min="0.1" max="3600" step="any" required></div><div class="field"><label for="retries">失败重试</label><input type="number" id="retries" name="retries" min="0" max="20" required></div></div>
-                  <div class="field"><label for="max_pages">每个目标页面上限</label><input type="number" id="max_pages" name="max_pages" min="1" max="1000000" required></div>
-                  <div class="section-label"><span>02</span>文件命名</div><div class="field"><label for="filename_prefix">文件名前缀</label><input id="filename_prefix" name="filename_prefix" maxlength="80" required spellcheck="false"><div class="filename-preview mono" id="filename-preview">weibo_0001.jpg</div></div>
+                  <div class="field"><label for="max_pages" id="max-pages-label">每个目标页面上限</label><input type="number" id="max_pages" name="max_pages" min="1" max="1000000" required></div>
+                  <div id="pinterest-advanced" hidden>
+                    <div class="section-label"><span>02</span>网络与图片</div>
+                    <div class="field"><label for="pinterest_proxy">代理地址 <span>留空使用当前网络</span></label><input id="pinterest_proxy" type="password" autocomplete="off" spellcheck="false" placeholder="http://127.0.0.1:7890 或 socks5://127.0.0.1:1080"></div>
+                    <div class="field-row"><div class="field"><label for="pinterest_browser_channel">回退浏览器</label><select id="pinterest_browser_channel"><option value="auto">自动选择</option><option value="chrome">Chrome</option><option value="msedge">Edge</option><option value="chromium">Playwright Chromium</option></select></div><div class="field"><label for="pinterest_max_file_mb">单图上限 <span>MB</span></label><input id="pinterest_max_file_mb" type="number" min="1" max="100" value="30" required></div></div>
+                    <div class="switch-row"><label for="pinterest_headless">后台运行回退浏览器</label><label class="switch"><input id="pinterest_headless" type="checkbox" checked><span></span></label></div>
+                    <div class="switch-row"><label for="pinterest_deduplicate">按图片内容去重</label><label class="switch"><input id="pinterest_deduplicate" type="checkbox" checked><span></span></label></div>
+                    <p class="target-hint">使用 pinterest-dl 采集引擎，原图优先。原图不可用时尝试已知分辨率，接口受限时回退页面 / 浏览器；遇登录或验证要求会提示。</p>
+                  </div>
+                  <div id="google-advanced" hidden>
+                    <div class="section-label"><span>02</span>搜索与浏览器</div>
+                    <div class="field"><label for="proxy">代理地址 <span>留空使用当前网络</span></label><input id="proxy" type="password" autocomplete="off" placeholder="http://127.0.0.1:7890 或 socks5://127.0.0.1:1080" spellcheck="false"></div>
+                    <div class="field-row"><div class="field"><label for="browser_channel">浏览器</label><select id="browser_channel"><option value="auto">自动选择</option><option value="chrome">Chrome</option><option value="msedge">Edge</option><option value="chromium">Playwright Chromium</option></select></div><div class="field"><label for="search_language">搜索语言</label><input id="search_language" value="zh-CN" placeholder="zh-CN / en" required></div></div>
+                    <div class="field"><label for="max_file_mb">单张文件上限 <span>MB</span></label><input id="max_file_mb" type="number" min="1" max="100" value="30" required></div>
+                    <div class="switch-row"><label for="headless">后台运行浏览器</label><label class="switch"><input id="headless" type="checkbox" checked><span></span></label></div>
+                    <p class="target-hint">搜索和图片下载均使用上方代理。保持后台运行即可；遇到访问限制会直接提示，请检查代理或更换节点后重试。</p>
+                    <div class="switch-row"><label for="deduplicate">按图片内容去重</label><label class="switch"><input id="deduplicate" type="checkbox" checked><span></span></label></div>
+                  </div>
+                  <div class="section-label"><span>03</span>文件命名</div><div class="field"><label for="filename_prefix">文件名前缀</label><input id="filename_prefix" name="filename_prefix" maxlength="80" required spellcheck="false"><div class="filename-preview mono" id="filename-preview">weibo_0001.jpg</div></div>
                 </div>
               </fieldset>
             </form>
@@ -92,7 +145,7 @@
               <div class="progress-content"><div class="progress-main"><div><div class="subtle-label" id="progress-caption">有效图片 / 采集上限</div><div class="progress-number"><span id="progress-number">0.0</span><span id="progress-unit">%</span></div></div><div class="progress-tally"><strong id="progress-tally">0 <span>/ 1,000</span></strong><span id="progress-stage">等待开始</span></div></div>
               <div class="progress-track" id="progress-track" role="progressbar" aria-label="有效图片占采集上限" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress-fill"></div></div>
               <div class="throughput"><div class="throughput-heading"><span>实时下载速率</span><span><strong id="rate-value">0.0</strong><span class="rate-unit"> 张 / s</span></span></div><svg id="rate-chart" viewBox="0 0 600 58" preserveAspectRatio="none" role="img" aria-label="最近一分钟下载速率"><path class="chart-grid" d="M0 12H600M0 34H600M0 56H600"/><path class="chart-area" id="chart-area" d="M0 56H600V58H0Z"/><path class="chart-line" id="chart-line" d="M0 56H600"/></svg><div class="chart-labels"><span>−60 s</span><span>现在</span></div></div>
-              <div class="run-details"><div><span>当前目标</span><strong id="current-target" class="mono">—</strong></div><div><span>当前相册</span><strong id="current-album">—</strong></div><div><span>完成目标</span><strong id="targets-done" class="mono">0 / 1</strong></div><div><span>请求页面</span><strong id="pages-count" class="mono">0</strong></div><div><span>本次写入</span><strong id="bytes-count" class="mono">0 B</strong></div></div>
+              <div class="run-details"><div><span>当前目标</span><strong id="current-target" class="mono">—</strong></div><div><span id="album-label">当前相册</span><strong id="current-album">—</strong></div><div><span>完成目标</span><strong id="targets-done" class="mono">0 / 1</strong></div><div><span>请求页面</span><strong id="pages-count" class="mono">0</strong></div><div><span>本次写入</span><strong id="bytes-count" class="mono">0 B</strong></div></div>
               <div id="run-error" class="run-error" role="alert" hidden></div></div>
             </section>
             <section class="panel log-panel" aria-labelledby="log-heading"><div class="panel-header log-header"><div class="log-tabs" role="tablist" aria-label="运行数据"><button id="live-tab" role="tab" aria-selected="true" aria-controls="log-view" class="active"><svg class="icon"><use href="#icon-terminal"/></svg><span id="log-heading">实时日志</span><span class="log-count" id="log-count">0</span></button><button id="history-tab" role="tab" aria-selected="false" aria-controls="history-view" tabindex="-1">运行记录</button></div><div class="log-actions"><select id="log-filter" aria-label="日志筛选"><option value="all">全部</option><option value="error">错误</option><option value="warning">警告</option><option value="success">下载</option></select><button class="icon-button" id="export-log" title="导出日志" aria-label="导出日志"><svg class="icon"><use href="#icon-download"/></svg></button><button class="icon-button" id="clear-log" title="清空显示" aria-label="清空日志显示"><svg class="icon"><use href="#icon-trash"/></svg></button></div></div>
@@ -102,29 +155,46 @@
             </section>
           </div>
         </div>
-      </main>
-      <footer class="workspace-footer"><span><span class="status-dot" id="footer-dot"></span><span id="footer-state">连接中</span></span><span class="mono">HTML / PYTHON<span class="footer-separator">·</span>127.0.0.1</span></footer>
-    </div>
-  </div>
-  <dialog id="crop-dialog" class="crop-dialog" aria-labelledby="crop-title">
-    <div class="crop-dialog-header"><h2 id="crop-title"><svg class="icon"><use href="#icon-crop"/></svg>底部裁剪</h2><button type="button" class="icon-button crop-close" id="crop-close" aria-label="关闭裁剪预览">×</button></div>
+        </div>
+        <section id="image-tools-page" class="image-tools-page" aria-labelledby="crop-title" hidden>
+          <div class="page-heading"><div><h1 id="crop-title">图片裁剪</h1><p class="page-description">裁剪、缩放，实时查看处理结果</p></div><button type="button" class="button button-primary" id="crop-export" disabled><svg class="icon"><use href="#icon-download"/></svg>保存图片</button></div>
+          <div class="panel image-editor-panel">
     <div class="crop-editor-body">
       <div class="crop-image-area">
         <div class="crop-image-toolbar"><button class="button button-secondary" type="button" id="crop-open-file"><svg class="icon"><use href="#icon-image"/></svg>打开图片</button><span id="crop-source-name">未选择图片</span><input type="file" id="crop-file" accept="image/*" hidden></div>
         <div class="crop-stage" id="crop-stage"><div class="crop-empty" id="crop-empty"><svg class="icon"><use href="#icon-image"/></svg><span>打开一张图片</span></div><canvas id="crop-canvas" role="slider" tabindex="0" aria-label="底部裁剪像素，方向键调整" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" hidden></canvas></div>
-        <div class="crop-image-meta"><span id="crop-source-size">—</span><span>拖动绿线 · ↑↓ 微调</span></div>
+        <div class="crop-image-meta"><span id="crop-source-size">—</span><span>拖动裁剪线 · ↑↓ 微调</span></div>
       </div>
       <div class="crop-controls">
-        <div class="crop-result-heading">裁后预览</div>
+        <div class="crop-result-heading">处理预览</div>
         <div class="crop-preview-wrap"><canvas id="crop-preview" aria-label="裁剪后的图片预览" hidden></canvas><span id="crop-preview-empty">—</span></div>
-        <label for="crop-pixels">底部裁剪</label><div class="crop-pixel-field"><input type="number" id="crop-pixels" min="0" max="19999" value="0" disabled><span>px</span></div>
+        <form id="image-settings" autocomplete="off"><div class="image-setting-heading">处理设置</div>
+        <div class="switch-row"><label for="resize_enabled">长边缩放</label><label class="switch"><input type="checkbox" id="resize_enabled"><span></span></label></div>
+        <div class="field" id="image-long-edge-field" hidden><label for="image_long_edge">图片长边 <span>px</span></label><input id="image_long_edge" type="number" min="1" max="20000" value="1024" disabled required></div>
+        <input type="hidden" id="crop_bottom" value="0"><label for="crop-pixels">底部裁剪</label><div class="crop-pixel-field"><input type="number" id="crop-pixels" min="0" max="19999" value="0"><span>px</span></div>
         <input type="range" id="crop-range" min="0" max="0" value="0" step="1" aria-label="底部裁剪像素" disabled>
-        <div class="crop-dimensions"><span>保留尺寸</span><strong id="crop-kept-size">—</strong></div>
+        </form><div class="crop-dimensions"><span>保留尺寸</span><strong id="crop-kept-size">—</strong></div>
         <div class="crop-scale-note" id="crop-scale-note">像素按原图尺寸计算</div>
         <p id="crop-editor-error" class="crop-editor-error" role="alert" hidden></p>
       </div>
     </div>
-    <div class="crop-dialog-footer"><button class="button button-secondary" type="button" id="crop-reset" disabled>重置</button><div><button class="button button-secondary" type="button" id="crop-cancel">取消</button><button class="button button-primary" type="button" id="crop-apply" disabled>应用裁剪</button></div></div>
+            <div class="crop-dialog-footer"><button class="button button-secondary" type="button" id="crop-reset" disabled>重置裁剪</button><div class="image-task-settings"><span id="image-settings-target">采集处理设置</span><button class="button button-secondary" type="button" id="crop-apply" disabled>保存到微博相册</button></div></div>
+          </div>
+        </section>
+      </main>
+      <footer class="workspace-footer"><span><span class="status-dot" id="footer-dot"></span><span id="footer-state">连接中</span></span><span class="mono">SpiderRoom</span></footer>
+    </div>
+  </div>
+  <dialog id="gallery-dialog" class="gallery-dialog" aria-labelledby="gallery-title">
+    <div class="media-dialog-header"><h2 id="gallery-title"><svg class="icon"><use href="#icon-image"/></svg>图片预览</h2><div class="media-header-actions"><button class="button button-secondary" id="gallery-refresh" type="button">刷新</button><button class="icon-button media-close" id="gallery-close" type="button" aria-label="关闭图片预览">×</button></div></div>
+    <div class="gallery-location"><span id="gallery-directory"></span><span>包含子文件夹 · 最新图片优先</span></div>
+    <div class="gallery-body"><p class="gallery-message" id="gallery-message" role="status">正在加载图片…</p><div class="gallery-grid" id="gallery-grid" aria-label="已采集图片"></div></div>
+    <div class="gallery-footer"><span id="gallery-count" role="status">0 张图片</span><button class="button button-secondary" id="gallery-more" type="button" hidden>加载更多</button><span class="gallery-hint">点击图片放大查看</span></div>
+  </dialog>
+  <dialog id="image-dialog" class="image-dialog" aria-labelledby="image-title">
+    <div class="media-dialog-header"><div class="image-heading"><h2 id="image-title">图片</h2><span id="image-position"></span></div><div class="media-header-actions"><button class="button button-secondary" id="image-zoom" type="button" aria-pressed="false">原始尺寸</button><button class="icon-button media-close" id="image-close" type="button" aria-label="关闭大图">×</button></div></div>
+    <div class="image-viewer"><button class="image-nav image-previous" id="image-previous" type="button" aria-label="上一张图片"><svg class="icon"><use href="#icon-chevron"/></svg></button><div class="image-stage" id="image-stage"><img id="image-full" alt="" hidden><p id="image-message" class="gallery-message" role="status">正在加载原图…</p></div><button class="image-nav image-next" id="image-next" type="button" aria-label="下一张图片"><svg class="icon"><use href="#icon-chevron"/></svg></button></div>
+    <div class="image-footer"><span id="image-details"></span><span>← → 切换 · Esc 关闭</span></div>
   </dialog>
   <div class="toast" id="toast" role="status" hidden><svg class="icon"><use id="toast-icon" href="#icon-check"/></svg><span id="toast-text"></span></div>
 </body>

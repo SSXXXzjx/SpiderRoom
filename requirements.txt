@@ -1,1 +1,5 @@
 -r crawlers/weibo/requirements.txt
+-r crawlers/xhs/requirements.txt
+-r crawlers/google_images/requirements.txt
+-r crawlers/pinterest/requirements.txt
+./crawlers/pinterest/vendor/pinterest-dl

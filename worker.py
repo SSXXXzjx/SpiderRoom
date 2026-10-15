@@ -95,6 +95,9 @@ def main():
             emit("log", message=f"底部裁剪：{config['crop_bottom']}px（输出尺寸）", level="info")
         spider.target_index = 0
         spider.run()
+    except ModuleNotFoundError as error:
+        emit("error", message=f"缺少依赖 {error.name}，请使用平台的 Python 安装依赖：\"{sys.executable}\" -m pip install -r \"{Path(__file__).resolve().parent / 'requirements.txt'}\"")
+        return 1
     except Exception as error:
         message = str(error)
         cookie = config.get("cookie", "")

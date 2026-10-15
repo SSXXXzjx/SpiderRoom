@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "pinterest-dl"
+description = "An unofficial Pinterest image downloader"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "sean1832", email = "dev@zekezhang.com" }]
+requires-python = ">=3.10"
+keywords = ["pinterest", "image downloader", "web scraping"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Environment :: Console",
+]
+dependencies = [
+    "tqdm",
+    "requests",
+    "deprecated",
+    "m3u8",
+    "cryptography",
+]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.40.0"]
+image = ["pillow==12.2.0"]
+metadata = ["pinterest-dl[image]", "pyexiv2"]
+all = ["pinterest-dl[browser,metadata]"]
+dev = ["pinterest-dl[all]", "pytest>=9.0.3", "pytest-mock>=3.15.1"]
+
+[project.scripts]
+pinterest-dl = "pinterest_dl.cli:main"
+pin-dl = "pinterest_dl.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sean1832/pinterest-dl"
+Issues = "https://github.com/sean1832/pinterest-dl/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "pinterest_dl.__version__" }
+
+[tool.setuptools]
+packages = { find = { include = ["pinterest_dl*"] } }
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: hits the real Pinterest network; run deliberately, not in the default suite",
+]
+addopts = "-m 'not integration'"
